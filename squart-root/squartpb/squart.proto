@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package squart;
+
+option go_package="squartpb";
+
+message SquartRootRequest {
+  int32 number = 1;
+}
+
+message SquartRootResponse {
+  double number_root = 1;
+}
+
+service SquartRoot {
+
+  // error hanlding
+  // this RPC will throw an exception if the sent number is negative
+  // The error being sent is of the type INVALID_AUGUMENT
+  rpc SquartRoot(SquartRootRequest) returns (SquartRootResponse);
+}

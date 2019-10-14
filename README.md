@@ -112,7 +112,53 @@ go get -u github.com/golang/protobuf/protoc-gen-go
   go run greet-everyone/greet_client/client.go
   ```
 
-5. Timeout example
+5. Show Errors
+
+  how show erro in grpc, show example to used it. this is link explain errors from offical https://grpc.io/docs/guides/error/
+
+  Nothing specified in proto file
+  ```proto
+  rpc SquartRoot(SquartRootRequest) returns (SquartRootResponse);
+  ```
+  How run up example
+  - start the server
+  ```
+  go run squart-root/server/server.go
+  ```
+  - start the client
+  ```
+  go run squart-root/client/client.go
+  ```
+
+  handle error on server
+  ```
+  return nil, status.Errorf(
+		codes.InvalidArgument,
+		fmt.Sprintf("Received a negative number: %v", number),
+	)
+  ```
+
+  handle error on client
+  ```
+  resp, err := c.SquartRoot(context.Background(), res)
+	fmt.Println(err != nil)
+	if err != nil {
+		respErr, ok := status.FromError(err)
+		if ok {
+			fmt.Println(respErr.Message())
+			fmt.Println(respErr.Code())
+			if respErr.Code() == codes.InvalidArgument {
+				fmt.Println(("We probably send a negative number!"))
+				return
+			}
+		} else {
+			log.Fatalf("Big error calling squart %v", err)
+			return
+		}
+	}
+  ```
+
+6. Timeout example
 
   show example, how set timeout in grpc.
 
