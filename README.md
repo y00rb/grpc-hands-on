@@ -97,3 +97,19 @@ go get -u github.com/golang/protobuf/protoc-gen-go
 
 4. Bi-Directional streaming
   client send `many` requests, server send back `many` response too.
+
+  ```proto
+  rpc GreetEveryone (stream GreetRequest) returns (stream GreetResponse);
+  ```
+  How run up example
+  - start the server
+  ```
+  go run greet-everyone/greet_server/server.go
+  ```
+  - start the client
+  ```
+  go run greet-everyone/greet_client/client.go
+  ```
+
+
+
