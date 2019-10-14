@@ -96,6 +96,7 @@ go get -u github.com/golang/protobuf/protoc-gen-go
     ```
 
 4. Bi-Directional streaming
+
   client send `many` requests, server send back `many` response too.
 
   ```proto
@@ -111,5 +112,28 @@ go get -u github.com/golang/protobuf/protoc-gen-go
   go run greet-everyone/greet_client/client.go
   ```
 
+5. Timeout example
 
+  show example, how set timeout in grpc.
 
+  Nothing specified in proto file
+  ```proto
+  rpc GreetEveryone (stream GreetRequest) returns (stream GreetResponse);
+  ```
+  How run up example
+  - start the server
+  ```
+  go run greet-deadline/greet_server/server.go
+  ```
+  - start the client
+  ```
+  go run greet-deadline/greet_client/client.go
+  ```
+
+  > ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	> defer cancel()
+
+  because we have 3*1 seconds in server side(3 loops, every loop will sleep 1 second), so if want to timeout showing in client, should change it to 
+
+  > ctx, cancel := context.WithTimeout(context.Background(), `4`*time.Second)
+	> defer cancel()
