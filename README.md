@@ -96,3 +96,4 @@ go get -u github.com/golang/protobuf/protoc-gen-go
     ```
 
 4. Bi-Directional streaming
+  client send `many` requests, server send back `many` response too.
