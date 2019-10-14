@@ -56,4 +56,43 @@ go get -u github.com/golang/protobuf/protoc-gen-go
   ```
 
 3. client streaming
+
+  client send `many` requests, server send back `one` response.
+  - example1: Say hello with all names
+
+    in `greet-client-streaming` directory show example that is client send three names as `stream` to server, server response message which includes names from multip-requests.
+    ```proto
+    service GreetService {
+      rpc LongGreet (stream GreetRequest) returns (GreetResponse);
+    }
+    ```
+    How run up example
+    - start the server
+    ```
+    go run greet-client-streaming/greet_server/server.go
+    ```
+    - start the client
+    ```
+    go run greet-client-streaming/greet_client/client.go
+    ```
+
+  - example2: calculating average number
+
+    calculating average number by `many` number from client `stream`.
+
+    ```proto
+    service GreetService {
+      rpc Average (stream CalculateRequest) returns (CalculateResponse) ;  
+    }
+    ```
+    How run up example
+    - start the server
+    ```
+    go run greet-client-streaming/greet_server/server.go
+    ```
+    - start the client
+    ```
+    go run greet-client-streaming/average_client/average_client.go
+    ```
+
 4. Bi-Directional streaming
